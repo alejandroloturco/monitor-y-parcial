@@ -68,4 +68,53 @@ class Sistema:
         self.
 
 
+def main():
+    sis = Sistema()     
+    while True:
+        menu = int(input("""Escoja una opcion 
+                        \r1. Ingresar Paciente
+                        \r2. Modificar Informacion para un paciente
+                        \rIngrese--> """))
+        if menu == 1:
+            pass
+        elif menu ==2:
+            opcion = int(input("""Escoja una opcion 
+                            \r1. Agregar nuevos implantes 
+                            \r2. Eliminar implantes
+                            \r3. Editar informacion de implantes
+                            \r4. Visulaizar inventario completo
+                            \r5. Salir
+                            \rIngrese--> """)) 
+            
+            if opcion == 1:            
+                print("""Seleccione el tipo de protesis:
+                    \r1. Marcapasos 
+                    \r2. Stend Coronario
+                    \r3. Implante Denal
+                    \r4. Implante Rodilla
+                    \r5. Implante Cadera""" ) 
+                opcion_f = int(input(""))    
+            elif opcion == 2:
+                pass
+            
+            elif opcion == 3:
+                pass 
+
+            elif opcion == 4:
+                pass 
+            
+            elif opcion == 5:
+                print("Ha salido del sistema")
+                break 
+            
+            else:
+                print("Opcion no valida, ingrese de nuevo")
+                continue 
+        else:
+            print("Opcion no valida, ingrese de nuevo")
+            continue
+
+#aca el python descubre cual es la funcion principal
+if __name__ == "__main__":
+    main() 
 
