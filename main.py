@@ -13,3 +13,8 @@ class Implantes:
     def asignarTamaño(self,t):
         self.__tamaño = t
 
+class Protesis_Cadera(Implantes):
+    def __init__(self):
+        super().__init__()
+        self.fijacion = ""
+
