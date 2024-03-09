@@ -13,10 +13,6 @@ class Implantes:
     def asignarTamaño(self,t):
         self.__tamaño = t
 
-class Protesis_Cadera(Implantes):
-    def __init__(self,material,tamaño,fijacion):
-        super().__init__(material,tamaño)
-        self.fijacion =  fijacion 
 
 class Marcapasos:
     def __init__(self,electrodos,conectividad,frecuencia):
@@ -46,9 +42,31 @@ class ImplanteCadera(Implantes):
         super().__init__(material,tamaño)
         self.fijacion = fijacion
 
+class Paciente():
+    def __init__(self,nombre,cedula):
+        self.__nombre = nombre
+        self.__cedula = cedula
+    
+    def verNombre(self):
+        return self.__nombre
+    def VerCedula(self):
+        return self.__cedula
+    
+    def AsignarNombre(self,n):
+        self.__nombre = n
+    def AsignarCedula(self,c):
+        self.__cedula = c
+
+
+
 class Sistema:
     def __init__(self):
-        self.
-
+        self.__inventario = {}
+    
+    
+    def verificarExiste(self,paciente):
+        if paciente in self.__inventario:
+            return True
+        return False
 
 
