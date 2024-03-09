@@ -7,3 +7,9 @@ class Implantes:
         return self.__material
     def verTamaño(self):
         return self.__tamaño
+    #Metodos set
+    def asignarMaterial(self,m):
+        self.__material = m
+    def asignarTamaño(self,t):
+        self.__tamaño = t
+
