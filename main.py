@@ -36,9 +36,12 @@ class Implantes:
     self.__tamaño = e
   def asignarFecha_r(self, r):
     self.__fecha = r
-  def asignarMantenimiento(self, fecha, manten):
-    self.__revision_mantenimiento[fecha] = []
-    self.__revision_mantenimiento[fecha].append(manten)
+  def asignarMantenimiento(self,sis2 ,fecha, manten):
+    if fecha in sis2:
+      self.__revision_mantenimiento[fecha].append(manten)     
+    else:
+      self.__revision_mantenimiento[fecha] = []
+      self.__revision_mantenimiento[fecha].append(manten)
     print("mantenimiento registrado exitosamente")
 
 
@@ -492,48 +495,49 @@ def main():
           elif opcion == 4:
             for implante in inventario[patient]:
               if isinstance(implante, Marcapasos):
+                sis2 = implante.verRevision_Mantenimiento()
                 print("Electrodos: "+implante.verElectrodos())
                 print("Conectividad: "+implante.verConectividad())
-                print("Frecuencia: "+implante.verFrecuencia())
-                """for i in range(len(implante.verRevision_Mantenimiento().keys())):
-                  print("Fecha y mantenimiento")
-                  print(f'{implante.verRevision_Mantenimiento().keys()[i]}: {implante.verRevision_Mantenimiento()[0]}')"""
-                for key in implante.verRevision_Mantenimiento().keys():
-                  for n in  range(len(implante.verRevision_Mantenimiento())):
-                    print(f'{key}: {implante.verRevision_Mantenimiento()[key][n]}')
-
+                print("Frecuencia: "+implante.verFrecuencia())                
+                for key in sis2.keys():
+                  for n in  sis2[key]:
+                    print(f'{key}: {n}')
                 continue
               elif isinstance(implante, StendCoronario):
+                sis2 = implante.verRevision_Mantenimiento()
                 print("Longitud: "+implante.verLongitud())
                 print("Diametro: "+implante.verDiametro())
                 print("Material: "+implante.verMaterial())
-                for i in range(implante.verRevision_Mantenimiento()):
-                  print("Fecha y mantenimiento")
-                  print(f'{list(implante.verRevision_Mantenimiento().keys())[i]}: {implante.verRevision_Mantenimiento()[0]}')
+                for key in sis2.keys():
+                  for n in  sis2[key]:
+                    print(f'{key}: {n}')
                 continue
               elif isinstance(implante, ImplanteDental):
+                sis2 = implante.verRevision_Mantenimiento()
                 print("Forma: "+implante.verForma())
                 print("Fijacion: "+implante.verFijacion_s())
                 print("Material: "+implante.verMaterial())
-                for i in range(implante.verRevision_Mantenimiento()):
-                  print("Fecha y mantenimiento")
-                  print(f'{implante.verRevision_Mantenimiento().keys()[i]}: {implante.verRevision_Mantenimiento()[0]}')
+                for key in sis2.keys():
+                  for n in  sis2[key]:
+                    print(f'{key}: {n}')
                 continue
               elif isinstance(implante, ImplanteRodilla):
+                sis2 = implante.verRevision_Mantenimiento()
                 print("Material: "+implante.verMaterial())
                 print("Fijacion: : "+implante.verFijacion_t())
                 print("Tamaño: "+implante.verTamaño())
-                for i in range(implante.verRevision_Mantenimiento()):
-                  print("Fecha y mantenimiento")
-                  print(f'{implante.verRevision_Mantenimiento().keys()[i]}: {implante.verRevision_Mantenimiento()[0]}')
+                for key in sis2.keys():
+                  for n in  sis2[key]:
+                    print(f'{key}: {n}')
                 continue
               elif isinstance(implante, ImplanteCadera):
+                sis2 = implante.verRevision_Mantenimiento()
                 print("Material: "+implante.verMaterial())
                 print("Fijacion: "+implante.verFijacion_t())
                 print("Tamaño: "+implante.verTamaño())
-                for i in range(implante.verRevision_Mantenimiento().keys()):
-                  print("Fecha y mantenimiento")
-                  print(f'{implante.verRevision_Mantenimiento().keys()[i]}: {implante.verRevision_Mantenimiento()[0]}')
+                for key in sis2.keys():
+                  for n in  sis2[key]:
+                    print(f'{key}: {n}')
                 continue
           elif opcion == 5:
             selec = int(
@@ -548,38 +552,42 @@ def main():
             if selec == 1:
               for mar in inventario[patient]:
                 if isinstance(mar, Marcapasos):
-                  mar.verRevision_Mantenimiento()
+                  sis2 = mar.verRevision_Mantenimiento()
                   fecha_revision = (f'{datetime.datetime.now().strftime("%d/%m/%Y")}')
                   mantenimiento = input("Ingrese el mantenimiento realizado al implante: ")
-                  mar.asignarMantenimiento(fecha_revision,mantenimiento)
+                  mar.asignarMantenimiento(sis2,fecha_revision,mantenimiento)
             elif selec == 2:
               for ste in inventario[patient]:
                 if isinstance(ste, StendCoronario):
+                  sis2 = ste.verRevision_Mantenimiento()
                   ste.verRevision_Mantenimiento()
                   fecha_revision = datetime.datetime.now().strftime("%d/%m/%Y")
                   mantenimiento = input("Ingrese el mantenimiento realizado al implante: ")
-                  ste.asignarMantenimiento(fecha_revision,mantenimiento)
+                  ste.asignarMantenimiento(sis2,fecha_revision,mantenimiento)
             elif selec == 3:
               for impd in inventario[patient]:
                 if isinstance(impd, ImplanteDental):
+                  sis2 = impd.verRevision_Mantenimiento()
                   impd.verRevision_Mantenimiento()
                   fecha_revision = datetime.datetime.now().strftime("%d/%m/%Y")
                   mantenimiento = input("Ingrese el mantenimiento realizado al impdlante: ")
-                  impd.asignarMantenimiento(fecha_revision,mantenimiento)
+                  impd.asignarMantenimiento(sis2,fecha_revision,mantenimiento)
             elif selec == 4:
               for impr in inventario[patient]:
                 if isinstance(impr, ImplanteRodilla):
+                  sis2 = impr.verRevision_Mantenimiento()
                   impr.verRevision_Mantenimiento()
                   fecha_revision = datetime.datetime.now().strftime("%d/%m/%Y")
                   mantenimiento = input("Ingrese el mantenimiento realizado al implante: ")
-                  impr.asignarMantenimiento(fecha_revision,mantenimiento)
+                  impr.asignarMantenimiento(sis2,fecha_revision,mantenimiento)
             elif selec == 5:
               for ic in inventario[patient]:
                 if isinstance(ic, ImplanteCadera):
+                  sis2 = ic.verRevision_Mantenimiento()
                   ic.verRevision_Mantenimiento()
                   fecha_revision = datetime.datetime.now().strftime("%d/%m/%Y")
                   mantenimiento = input("Ingrese el mantenimiento realizado al implante: ")
-                  ic.asignarMantenimiento(fecha_revision,mantenimiento)
+                  ic.asignarMantenimiento(sis2,fecha_revision,mantenimiento)
 
           elif opcion == 6:
             print("Ha salido del sistema")
