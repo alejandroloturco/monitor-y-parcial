@@ -669,7 +669,7 @@ def main():
                   mantenimiento = input("Ingrese la revision realizada al implante: ")
                   ic.asignarRevision(sis2,fecha_revision,mantenimiento)
 
-            elif opcion == 6:
+          elif opcion == 6:
               while True:
                 print("""Protesis
                                         \r1. Marcapasos 
@@ -745,9 +745,9 @@ def main():
                         elif subopcion == 2 :
                           break
                 
-            elif opcion == 7:
-              print("Ha salido del sistema")
-              break
+          elif opcion == 7:
+            print("Ha salido del sistema")
+            break
 
           else:
             print("Opcion no valida, ingrese de nuevo")
