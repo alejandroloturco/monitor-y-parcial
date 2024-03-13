@@ -1,141 +1,136 @@
 import datetime as datetime
-
-
 class Implantes:
 
-  def __init__(self, material, tamaño, medico, estado):
+  def __init__(self, material, tamaño, medico, estado,fecha_r):
     self.__material = material
     self.__tamaño = tamaño
-    self.__fecha = datetime.datetime.now().strftime("%d/%m/%Y")
+    self.__fecha_i = datetime.datetime.now().strftime("%d/%m/%Y")
+    self.__fecha_r = fecha_r
     self.__medico = medico
+    self.__revision_mantenimiento = {} 
     self.__estado = estado
+
 
   def verMaterial(self):
     return self.__material
-
   def verTamaño(self):
     return self.__tamaño
-
   def verMedico(self):
     return self.__medico
-
   def verEstado(self):
     return self.__estado
+  def verRevision_Mantenimiento(self):
+    return self.__revision_mantenimiento
+  def fecha_r(self):
+    return self.__fecha_r
+  def fecha_i(self):
+    return self.__fecha_i
 
   def asignarMaterial(self, m):
     self.__material = m
-
   def asignarTamaño(self, t):
     self.__tamaño = t
-
   def asignarMedico(self, med):
     self.__tamaño = med
-
   def asignarEstado(self, e):
     self.__tamaño = e
+  def asignarFecha_r(self, r):
+    self.__fecha = r
+  def asignarMantenimiento(self, fecha, manten):
+    self.__revision_mantenimiento[fecha] = []
+    self.__revision_mantenimiento[fecha].append(manten)
+    print("mantenimiento registrado exitosamente")
 
 
 class Marcapasos(Implantes):
 
-  def __init__(self, electrodos, conectividad, frecuencia):
-    super().__init__(None, None, None, None)
+  def __init__(self, electrodos, conectividad, frecuencia, medico, estado):
+    super().__init__(None, None, medico, estado,None)
     self.__electrodos = electrodos
     self.__conectividad = conectividad
     self.__frecuencia = frecuencia
 
   def verElectrodos(self):
     return self.__electrodos
-
   def verConectividad(self):
     return self.__conectividad
-
   def verFrecuencia(self):
     return self.__frecuencia
 
   def asignarElectrodos(self, e):
     self.__electrodos = e
-
   def asignarConectividad(self, c):
     self.__conectividad = c
-
   def asignarFrecuencia(self, f):
     self.__frecuencia = f
 
 
 class StendCoronario(Implantes):
 
-  def __init__(self, material, longitud, diametro):
-    super().__init__(material, None, None, None)
+  def __init__(self, material, longitud, diametro,medico,estado,):
+    super().__init__(material,None,medico,estado,None)
     self.__longitud = longitud
     self.__diametro = diametro
 
   def verLongitud(self):
     return self.__longitud
-
   def verDiametro(self):
     return self.__diametro
 
   def asignarLongitud(self, l):
     self.__longitud = l
-
   def asignarDiametro(self, d):
     self.__diametro = d
 
-
 class ImplanteDental(Implantes):
 
-  def __init__(self, forma, fijacion_s, material):
-    super().__init__(material, None, None, None)
+  def __init__(self, forma, fijacion_s, material,medico,estado):
+    super().__init__(material, None, medico, estado,None)
     self.__forma = forma
     self.__fijacion_s = fijacion_s
 
   def verForma(self):
     return self.__forma
-
   def verFijacion_s(self):
     return self.__fijacion_s
 
   def asignarForma(self, f):
     self.__forma = f
-
   def asignarFijacion_s(self, f):
     self.__fijacion_s = f
 
 
 class ImplanteRodilla(Implantes):
 
-  def __init__(self, material, fijacion_t, tamaño):
-    super().__init__(material, tamaño, None, None)
+  def __init__(self, material, fijacion_t, tamaño,medico,estado):
+    super().__init__(material, tamaño, medico, estado, None)
     self.__fijacion_t = fijacion_t
 
   def verFijacion_t(self):
     return self.__fijacion_t
-
+    
   def asignarFijacion_t(self, f):
     self.__fijacion_t = f
 
 
 class ImplanteCadera(ImplanteRodilla):
 
-  def __init__(self, material, fijacion_t, tamaño):
-    super().__init__(material, fijacion_t, tamaño)
+  def __init__(self, material, fijacion_t, tamaño,medico,estado):
+    super().__init__(material, fijacion_t, tamaño,medico,estado)
 
 
 class Paciente():
-
   def __init__(self, nombre, cedula):
     self.__nombre = nombre
     self.__cedula = cedula
 
   def verNombre(self):
     return self.__nombre
-
   def verCedula(self):
     return self.__cedula
 
   def asignarNombre(self, n):
     self.__nombre = n
-
   def asignarCedula(self, c):
     self.__cedula = c
 
@@ -147,16 +142,10 @@ class Sistema:
 
   def verInventario(self):
     return self.__inventario
-
   def verificarPaciente(self, paciente):
     if paciente in self.__inventario:
       return True
-    return False
-
-  def verificarImplante(self, implante):
-    if implante in self.__inventario:
-      return True
-    return False
+    return False 
 
   def ingresarPaciente(self, paciente):
     if self.verificarPaciente(paciente):
@@ -167,6 +156,7 @@ class Sistema:
   def agregarImplantes(self, paciente, implantes):
     if self.verificarPaciente(paciente):
       self.__inventario[paciente].append(implantes)
+      print("Implante asignado al paciente correctamente ")
     else:
       print("El paciente no existe")
 
@@ -175,6 +165,11 @@ class Sistema:
       self.__inventario[paciente].remove(implantes)
     else:
       print("El paciente no existe")
+
+  def verificarImplante(self,object,tipo):
+      if isinstance(object,tipo):
+        return False
+      return True
 
 
 def main():
@@ -190,20 +185,21 @@ def main():
       cc = int(input("ingrese la cedula del paciente: "))
       pac_new = Paciente(nombre, cc)
       sis.ingresarPaciente(pac_new)
-      print("Paciente Ingresado")
+      print(" Paciente Ingresado")
     elif menu == 2:
       name = input("Ingrese el nombre del paciente: ")
-      doc = input("Ingrese el docuemnto del paciente: ")
+      doc = input("Ingrese el documento del paciente: ")
       inventario = sis.verInventario()
-      for patient in sis.verInventario().keys():
+      for patient in sis.verInventario().keys():        
         if patient.verNombre().lower() == name.lower() and patient.verCedula() == int(doc):
           opcion = int(
               input("""Escoja una opcion 
                                         \r1. Agregar nuevos implantes 
-                                        \r2. Eliminar implantes✅
-                                        \r3. Editar informacion de implantes ✅
-                                        \r4. Visualizar inventario completo✅
-                                        \r5. Salir✅
+                                        \r2. Eliminar implantes
+                                        \r3. Editar informacion de implantes 
+                                        \r4. Visualizar inventario completo
+                                        \r5. Mantenimiento
+                                        \r6. Salir
                                         \rIngrese--> """))
 
           if opcion == 1:
@@ -215,44 +211,75 @@ def main():
                               \r5. Implante Cadera""")
             opcion_f = int(
                 input("Seleccione el tipo de protesis que desea agregar: "))
-            if opcion_f == 1:
-              elec = int(input("Ingrese la cantidad de electrodos: "))
-              conec = input("Ingrese la conectividad: ")
-              frec = int(input("Ingrese la frecuencia: "))
-              mar = Marcapasos(elec, conec, frec)
-              sis.agregarImplantes(patient, mar)
-              break
-            elif opcion_f == 2:
-              mat = input("Ingrese el material: ")
-              long = int(input("Ingrese la longitud: "))
-              diam = int(input("Ingrese el diametro: "))
-              stend = StendCoronario(mat, long, diam)
-              sis.agregarImplantes(patient, stend)
-              break
+            if opcion_f == 1:                                
+                  elec = input("Ingrese la cantidad de electrodos: ")
+                  conec = input("Ingrese la conectividad: ")
+                  frec = input("Ingrese la frecuencia: ")
+                  med = input("Ingrese el medico: ")
+                  est = input("Ingrese el estado: ")
+                  mar = Marcapasos(elec, conec, frec,med,est)
+                  if sis.verificarImplante(mar,Marcapasos):
+                    print("Implante ya ingresado")
+                    break
+                  else:
+                    sis.agregarImplantes(patient, mar)  
+                    break
+                    
+              
+            elif opcion_f == 2:                                
+                  mat = input("Ingrese el material: ")
+                  long = int(input("Ingrese la longitud: "))
+                  diam = int(input("Ingrese el diametro: "))
+                  med = input("Ingrese el medico: ")
+                  est = input("Ingrese el estado: ")
+                  stend = StendCoronario(mat, long, diam,med,est)
+                  sis.agregarImplantes(patient, stend)
+                  print("Protesis agregada correctamente ")
+                  if not sis.verificarImplante(mar,Marcapasos):
+                    sis.agregarImplantes(patient, mar)  
+                    break
+                  else:
+                    print("Implante ya ingresado")
+                    break
+              
             elif opcion_f == 3:
-              form = input("Ingrese la forma: ")
-              sf = input("Ingrese el sistema de fijacion: ")
-              mat = input("Ingrese el material: ")
-              im_dent = ImplanteDental(form, sf, mat)
-              sis.agregarImplantes(patient, im_dent)
-              break
+                                
+                  form = input("Ingrese la forma: ")
+                  sf = input("Ingrese el sistema de fijacion: ")
+                  mat = input("Ingrese el material: ")
+                  med = input("Ingrese el medico: ")
+                  est = input("Ingrese el estado: ")
+                  im_dent = ImplanteDental(form, sf, mat,med,est)
+                  sis.agregarImplantes(patient, im_dent)
+                  print("Protesis agregada correctamente ")
+                  break
+              
             elif opcion_f == 4:
-              mat = input("Ingrese el material: ")
-              tf = input("Ingrese el tipo de fijacion: ")
-              tam = int(input("Ingrese el tamaño: "))
-              im_rod = ImplanteRodilla(mat, tf, tam)
-              sis.agregarImplantes(patient, im_rod)
-              break
+                                
+                  mat = input("Ingrese el material: ")
+                  tf = input("Ingrese el tipo de fijacion: ")
+                  tam = int(input("Ingrese el tamaño: "))
+                  med = input("Ingrese el medico: ")
+                  est = input("Ingrese el estado: ")
+                  im_rod = ImplanteRodilla(mat, tf, tam,med,est)
+                  sis.agregarImplantes(patient, im_rod)
+                  print("Protesis agregada correctamente ")
+                  break
+              
             elif opcion_f == 5:
-              mat = input("Ingrese el material: ")
-              tf = input("Ingrese el tipo de fijacion: ")
-              tam = int(input("Ingrese el tamaño: "))
-              im_cad = ImplanteCadera(mat, tf, tam)
-              sis.agregarImplantes(patient, im_cad)
-              break
+                                
+                  mat = input("Ingrese el material: ")
+                  tf = input("Ingrese el tipo de fijacion: ")
+                  tam = int(input("Ingrese el tamaño: "))
+                  med = input("Ingrese el medico: ")
+                  est = input("Ingrese el estado: ")
+                  im_cad = ImplanteCadera(mat, tf, tam,med,est)
+                  sis.agregarImplantes(patient, im_cad)
+                  break
+              
             else:
               print("Ingrese una opcion valida")
-
+              
           elif opcion == 2:
             print("""Protesis
                                 \r1. Marcapasos 
@@ -266,26 +293,31 @@ def main():
               for implante in inventario[patient]:
                 if isinstance(implante, Marcapasos):
                   sis.eliminarImplantes(patient, implante)
+                  print("Marcapasos eliminado correctamente ")
                   break
             elif opcion_f == 2:
               for implante in inventario[patient]:
                 if isinstance(implante, StendCoronario):
                   sis.eliminarImplantes(patient, implante)
+                  print("Stend coronario eliminado correctamente")
                   break
             elif opcion_f == 3:
               for implante in inventario[patient]:
                 if isinstance(implante, ImplanteDental):
                   sis.eliminarImplantes(patient, implante)
+                  print("Implante dental eliminado correctamente")
                   break
             elif opcion_f == 4:
               for implante in inventario[patient]:
                 if isinstance(implante, ImplanteRodilla):
                   sis.eliminarImplantes(patient, implante)
+                  print("Implante de rodilla eliminado correctamente")
                   break
             elif opcion_f == 5:
               for implante in inventario[patient]:
                 if isinstance(implante, ImplanteCadera):
                   sis.eliminarImplantes(patient, implante)
+                  print("Implante de cadera eliminado correctamente")
                   break
             else:
               print("Ingrese una opcion valida")
@@ -298,7 +330,7 @@ def main():
                                 \r3. Implante Denal
                                 \r4. Implante Rodilla
                                 \r5. Implante Cadera""")
-            s_opcion = int(input("Seleccione el implante:"))
+            s_opcion = int(input("Seleccione el implante a editar:"))
             if s_opcion == 1:
               for mar in inventario[patient]:
                 if isinstance(mar, Marcapasos):
@@ -306,23 +338,34 @@ def main():
                                   \r1. Electrodos
                                   \r2. Conectividad    
                                   \r3. Frecuencia
+                                  \r4. Medico
+                                  \r5. Estado
                                   """)
                   op_m = int(input("Seleccione la opcion: "))
                   if op_m == 1:
-                    mar.asignarElectrodos(
-                        int(input("Ingrese la cantidad de electrodos: ")))
+                    mar.asignarElectrodos(input("Ingrese la cantidad de electrodos: "))
+                    print("Caracteristica editada")
                     break
                   elif op_m == 2:
                     mar.asignarConectividad(input("Ingrese la conectividad: "))
+                    print("Caracteristica editada")
                     break
                   elif op_m == 3:
-                    mar.asignarFrecuencia(int(
-                        input("Ingrese la frecuencia: ")))
+                    mar.asignarFrecuencia(input("Ingrese la frecuencia: "))
+                    print("Caracteristica editada")
+                  elif op_m == 4:
+                    mar.asignarMedico(input("Ingrese el medico: "))
+                    print("Caracteristica editada")
+                    break
+                  elif op_m == 5:
+                    mar.asignarEstado(input("Ingrese el estado: ")) 
+                    print("Caracteristica editada")
                     break
                   else:
                     print("Ingrese una opcion valida")
                     break
-                  
+                
+
             elif s_opcion == 2:
               for stend in inventario[patient]:
                 if isinstance(stend, StendCoronario):
@@ -330,6 +373,8 @@ def main():
                                   \r1. Longitud
                                   \r2. Diametro    
                                   \r3. Material
+                                  \r4. Medico
+                                  \r5. Estado
                                   """)
                   op_s = int(input("Seleccione la opcion:"))
                   if op_s == 1:
@@ -340,6 +385,12 @@ def main():
                     break
                   elif op_s == 3:
                     stend.asignarMaterial(input("Ingrese el material:"))
+                    break
+                  elif op_m == 4:
+                    mar.asignarMedico(input("Ingrese el medico: "))
+                    break
+                  elif op_m == 5:
+                    mar.asignarEstado(input("Ingrese el estado: ")) 
                     break
                   else:
                     print("Ingrese una opcion valida")
@@ -352,6 +403,8 @@ def main():
                                   \r1. Forma
                                   \r2. Sistema de fijacion    
                                   \r3. Material
+                                  \r4. Medico
+                                  \r5. Estado
                                   """)
                   op_id = int(input("Seleccione la opcion:"))
                   if op_id == 1:
@@ -364,6 +417,12 @@ def main():
                   elif op_id == 3:
                     i_d.asignarMaterial(input("Ingrese el material:"))
                     break
+                  elif op_m == 4:
+                    mar.asignarMedico(input("Ingrese el medico: "))
+                    break
+                  elif op_m == 5:
+                    mar.asignarEstado(input("Ingrese el estado: ")) 
+                    break
                   else:
                     input("Ingrese una opcion valida")
                     break
@@ -375,6 +434,8 @@ def main():
                                     \r1. Material
                                     \r2. Tipo de fijacion  
                                     \r3. Tamaño
+                                    \r4. Medico
+                                    \r5. Estado
                                     """)
                   op_ir = int(input("Seleccione la opcion:"))
                   if op_ir == 1:
@@ -387,6 +448,12 @@ def main():
                   elif op_ir == 3:
                     i_r.asignarTamaño(int(input("Ingrese el tamaño:")))
                     break
+                  elif op_m == 4:
+                    mar.asignarMedico(input("Ingrese el medico: "))
+                    break
+                  elif op_m == 5:
+                    mar.asignarEstado(input("Ingrese el estado: ")) 
+                    break
                   else:
                     print("Ingrese una opcion valida")
                     break
@@ -398,6 +465,8 @@ def main():
                                   \r1. Material
                                   \r2. Tipo de fijacion  
                                   \r3. Tamaño
+                                  \r4. Medico
+                                  \r5. Estado
                                   """)
                   op_ic = int(input("Seleccione la opcion:"))
                   if op_ic == 1:
@@ -410,43 +479,117 @@ def main():
                   elif op_ic == 3:
                     i_c.asignarTamaño(int(input("Ingrese el tamaño:")))
                     break
+                  elif op_m == 4:
+                    mar.asignarMedico(input("Ingrese el medico: "))
+                    break
+                  elif op_m == 5:
+                    mar.asignarEstado(input("Ingrese el estado: ")) 
+                    break
+                  else:
+                    print("Ingrese una opcion valida")
+                    break
 
           elif opcion == 4:
             for implante in inventario[patient]:
               if isinstance(implante, Marcapasos):
-                print(implante.verElectrodos())
-                print(implante.verConectividad())
-                print(implante.verFrecuencia())
+                print("Electrodos: "+implante.verElectrodos())
+                print("Conectividad: "+implante.verConectividad())
+                print("Frecuencia: "+implante.verFrecuencia())
+                """for i in range(len(implante.verRevision_Mantenimiento().keys())):
+                  print("Fecha y mantenimiento")
+                  print(f'{implante.verRevision_Mantenimiento().keys()[i]}: {implante.verRevision_Mantenimiento()[0]}')"""
+                for key in implante.verRevision_Mantenimiento().keys():
+                  for n in  range(len(implante.verRevision_Mantenimiento())):
+                    print(f'{key}: {implante.verRevision_Mantenimiento()[key][n]}')
+
                 continue
               elif isinstance(implante, StendCoronario):
-                print(implante.verLongitud())
-                print(implante.verDiametro())
-                print(implante.verMaterial())
+                print("Longitud: "+implante.verLongitud())
+                print("Diametro: "+implante.verDiametro())
+                print("Material: "+implante.verMaterial())
+                for i in range(implante.verRevision_Mantenimiento()):
+                  print("Fecha y mantenimiento")
+                  print(f'{list(implante.verRevision_Mantenimiento().keys())[i]}: {implante.verRevision_Mantenimiento()[0]}')
                 continue
               elif isinstance(implante, ImplanteDental):
-                print(implante.verForma())
-                print(implante.verFijacion_s())
-                print(implante.verMaterial())
+                print("Forma: "+implante.verForma())
+                print("Fijacion: "+implante.verFijacion_s())
+                print("Material: "+implante.verMaterial())
+                for i in range(implante.verRevision_Mantenimiento()):
+                  print("Fecha y mantenimiento")
+                  print(f'{implante.verRevision_Mantenimiento().keys()[i]}: {implante.verRevision_Mantenimiento()[0]}')
                 continue
               elif isinstance(implante, ImplanteRodilla):
-                print(implante.verMaterial())
-                print(implante.verFijacion_t())
-                print(implante.verTamaño())
+                print("Material: "+implante.verMaterial())
+                print("Fijacion: : "+implante.verFijacion_t())
+                print("Tamaño: "+implante.verTamaño())
+                for i in range(implante.verRevision_Mantenimiento()):
+                  print("Fecha y mantenimiento")
+                  print(f'{implante.verRevision_Mantenimiento().keys()[i]}: {implante.verRevision_Mantenimiento()[0]}')
                 continue
               elif isinstance(implante, ImplanteCadera):
-                print(implante.verMaterial())
-                print(implante.verFijacion_t())
-                print(implante.verTamaño())
+                print("Material: "+implante.verMaterial())
+                print("Fijacion: "+implante.verFijacion_t())
+                print("Tamaño: "+implante.verTamaño())
+                for i in range(implante.verRevision_Mantenimiento().keys()):
+                  print("Fecha y mantenimiento")
+                  print(f'{implante.verRevision_Mantenimiento().keys()[i]}: {implante.verRevision_Mantenimiento()[0]}')
                 continue
-
           elif opcion == 5:
+            selec = int(
+              input("""Tipo de Implante:
+                                \r1. Marcapasos 
+                                \r2. Stend Coronario
+                                \r3. Implante Dental
+                                \r4. Implante Rodilla
+                                \r5. Implante Cadera
+                    \rIngrese una opcion:"""))
+
+            if selec == 1:
+              for mar in inventario[patient]:
+                if isinstance(mar, Marcapasos):
+                  mar.verRevision_Mantenimiento()
+                  fecha_revision = (f'{datetime.datetime.now().strftime("%d/%m/%Y")}')
+                  mantenimiento = input("Ingrese el mantenimiento realizado al implante: ")
+                  mar.asignarMantenimiento(fecha_revision,mantenimiento)
+            elif selec == 2:
+              for ste in inventario[patient]:
+                if isinstance(ste, StendCoronario):
+                  ste.verRevision_Mantenimiento()
+                  fecha_revision = datetime.datetime.now().strftime("%d/%m/%Y")
+                  mantenimiento = input("Ingrese el mantenimiento realizado al implante: ")
+                  ste.asignarMantenimiento(fecha_revision,mantenimiento)
+            elif selec == 3:
+              for impd in inventario[patient]:
+                if isinstance(impd, ImplanteDental):
+                  impd.verRevision_Mantenimiento()
+                  fecha_revision = datetime.datetime.now().strftime("%d/%m/%Y")
+                  mantenimiento = input("Ingrese el mantenimiento realizado al impdlante: ")
+                  impd.asignarMantenimiento(fecha_revision,mantenimiento)
+            elif selec == 4:
+              for impr in inventario[patient]:
+                if isinstance(impr, ImplanteRodilla):
+                  impr.verRevision_Mantenimiento()
+                  fecha_revision = datetime.datetime.now().strftime("%d/%m/%Y")
+                  mantenimiento = input("Ingrese el mantenimiento realizado al implante: ")
+                  impr.asignarMantenimiento(fecha_revision,mantenimiento)
+            elif selec == 5:
+              for ic in inventario[patient]:
+                if isinstance(ic, ImplanteCadera):
+                  ic.verRevision_Mantenimiento()
+                  fecha_revision = datetime.datetime.now().strftime("%d/%m/%Y")
+                  mantenimiento = input("Ingrese el mantenimiento realizado al implante: ")
+                  ic.asignarMantenimiento(fecha_revision,mantenimiento)
+
+          elif opcion == 6:
             print("Ha salido del sistema")
             break
 
           else:
             print("Opcion no valida, ingrese de nuevo")
             continue
-      
+
+
     else:
       print("Opcion no valida, ingrese de nuevo")
       continue
@@ -454,3 +597,4 @@ def main():
 
 if __name__ == "__main__":
   main()
+
