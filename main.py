@@ -11,6 +11,7 @@ class Implantes:
     self.__estado = estado
     self.__mantenimiento = ""
 
+#Commit 1 -- Creacion de la clase Implantes 
 
   def verMaterial(self):
     return self.__material
@@ -50,6 +51,7 @@ class Implantes:
   def asignarMantenimiento(self,m):
     self.__mantenimiento = m
 
+#commit 2 -- Creacion de los metodos usados para la clase implantes
 
 class Marcapasos(Implantes):
 
@@ -73,6 +75,7 @@ class Marcapasos(Implantes):
   def asignarFrecuencia(self, f):
     self.__frecuencia = f
 
+#commit 3 -- Creacion de la clase Marcapasos(herencia) y sus metodos
 
 class StendCoronario(Implantes):
 
@@ -91,6 +94,8 @@ class StendCoronario(Implantes):
   def asignarDiametro(self, d):
     self.__diametro = d
 
+#commit 4 -- Creacion de la clase Stend coronario(herencia) y sus metodos
+
 class ImplanteDental(Implantes):
 
   def __init__(self, forma, fijacion_s, material,medico,estado):
@@ -108,6 +113,7 @@ class ImplanteDental(Implantes):
   def asignarFijacion_s(self, f):
     self.__fijacion_s = f
 
+#commit 5 -- Creacion de la clase Implante dental(herencia) y sus metodos
 
 class ImplanteRodilla(Implantes):
 
@@ -127,6 +133,7 @@ class ImplanteCadera(ImplanteRodilla):
   def __init__(self, material, fijacion_t, tamaño,medico,estado):
     super().__init__(material, fijacion_t, tamaño,medico,estado)
 
+#commit 6 -- Creacion de las clases implante rodilla(herencia de implante) e implante cadera(herencia de implante rodilla) y sus metodos
 
 class Paciente():
   def __init__(self, nombre, cedula):
@@ -143,7 +150,8 @@ class Paciente():
   def asignarCedula(self, c):
     self.__cedula = c
 
-
+#commit 7 -- Creacion de la clase Paciente(herencia) y sus metodos
+    
 class Sistema:
 
   def __init__(self):
@@ -180,6 +188,8 @@ class Sistema:
         return False
       return True
 
+#commit 8 -- Creacion de la clase Sistema y sus metodos
+
 def main():
   sis = Sistema()
   while True:
@@ -194,6 +204,9 @@ def main():
       pac_new = Paciente(nombre, cc)
       sis.ingresarPaciente(pac_new)
       print(" Paciente Ingresado\n")
+
+#commit 9 -- Creacion inicial del main, opcion ingreso de paciente
+
     elif menu == 2:
       name = input("Ingrese el nombre del paciente: ")
       doc = input("Ingrese el documento del paciente: ")
@@ -211,6 +224,8 @@ def main():
                                         \r7. Salir
                                         \rIngrese--> """))
 
+#commit 10 -- Estructura general del main y acceso por medio de validacion a este mismo
+
           if opcion == 1:
             while True:
               print("""Protesis
@@ -220,6 +235,9 @@ def main():
                                 \r4. Implante Rodilla
                                 \r5. Implante Cadera""")
               opcion_f = int(input("Seleccione el tipo de protesis que desea agregar: "))
+
+#commit 11 -- Creacion de la estructura para opcion "ingresar implante"            
+
               if opcion_f == 1:                            
                       
                       elec = input("Ingrese la cantidad de electrodos: ")
@@ -316,6 +334,8 @@ def main():
               else:
                 print("Ingrese una opcion valida")
               
+#commit 12 -- Finalizacion de la opcion 1(Ingresar Implante)
+  
           elif opcion == 2:
             while True:
               print("""Protesis
@@ -397,6 +417,8 @@ def main():
               else:
                 print("Ingrese una opcion valida")
                 break
+
+#commit 13 -- finalizacion de la opcion 2 (eliminar implantes)
 
           elif opcion == 3:
             print("""Tipo de Implante:
@@ -563,6 +585,8 @@ def main():
                     print("Ingrese una opcion valida")
                     break
 
+#commit 14 -- finalizacion de la opcion 3 (editar implantes por  paciente)
+
           elif opcion == 4:
             for implante in inventario[patient]:
               if isinstance(implante, Marcapasos):
@@ -620,6 +644,9 @@ def main():
                     print(f'{key}: {n}')
                 print("")
                 continue
+          
+#commit 15 -- finalizacion de la opcion 4 (Visualizacion del inventario completo de implantes por paciente)
+
           elif opcion == 5:
             selec = int(
               input("""Tipo de Implante:
@@ -668,6 +695,8 @@ def main():
                   fecha_revision = datetime.datetime.now().strftime("%d/%m/%Y")
                   mantenimiento = input("Ingrese la revision realizada al implante: ")
                   ic.asignarRevision(sis2,fecha_revision,mantenimiento)
+
+#commit 16 -- finalizacion de la opcion 5 (Revision y nota de revision para implantes)
 
           elif opcion == 6:
               while True:
@@ -744,7 +773,9 @@ def main():
                           continue
                         elif subopcion == 2 :
                           break
-                
+
+#commit 17 -- finalizacion de la opcion 6 (Mantenimiento para implantes)      
+
           elif opcion == 7:
             print("Ha salido del sistema")
             break
@@ -762,3 +793,4 @@ def main():
 if __name__ == "__main__":
   main()
 
+#commit 18 -- finalizacion del main y aplicacion de este en el codigo
